@@ -87,7 +87,6 @@ class MembersControllerTest {
 
     final var request = new HttpEntity<>(member);
     final var response = this.httpClient.postForEntity(new URI(url), request, JResponse.class);
-
     final var body = writer.writeValueAsString(response.getBody().data());
     final var result = reader.readValue(body, Member.class);
 
@@ -103,6 +102,8 @@ class MembersControllerTest {
   void testFindAllUsingByDefaultRepository() throws URISyntaxException, IOException {
     final var url = "%s/v1".formatted(baseUrl());
 
+    this.httpClient.postForEntity(new URI("%s/v1/create".formatted(baseUrl())), new HttpEntity<>(randomMember()), JResponse.class);
+
     final var response = this.httpClient.getForEntity(new URI(url), JResponse.class);
     final var body = writer.writeValueAsString(response.getBody().data());
     final var result = reader.readValue(body, List.class);
@@ -116,6 +117,8 @@ class MembersControllerTest {
   @DisplayName("Should be correct when using /members/v2 api")
   void testFindAllUsingByCustomRepository() throws IOException, URISyntaxException {
     final var url = "%s/v2".formatted(baseUrl());
+
+    this.httpClient.postForEntity(new URI("%s/v2/create".formatted(baseUrl())), new HttpEntity<>(randomMember()), JResponse.class);
 
     final var response = this.httpClient.getForEntity(new URI(url), JResponse.class);
     final var body = writer.writeValueAsString(response.getBody().data());
