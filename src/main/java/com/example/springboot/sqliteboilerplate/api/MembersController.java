@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/members")
@@ -25,16 +26,16 @@ public class MembersController {
   }
 
   @PostMapping("/v1/create")
-  public ResponseEntity<JResponse> createByDefault(final @RequestBody Member member) {
-    final var result = this.memberRepository.save(member);
+  public ResponseEntity<JResponse> createByDefault(final @RequestBody CreateMemberParam param) {
+    final var result = this.memberRepository.save(param.transform());
     final var responsePayload = JResponse.succeed(result);
 
     return new ResponseEntity<>(responsePayload, HttpStatus.CREATED);
   }
 
   @PostMapping("/v2/create")
-  public ResponseEntity<JResponse> createByCustomRepository(final @RequestBody Member member) {
-    final var result = this.customMemberRepository.save(member);
+  public ResponseEntity<JResponse> createByCustomRepository(final @RequestBody CreateMemberParam param) {
+    final var result = this.customMemberRepository.save(param.transform());
     final var responsePayload = JResponse.succeed(result);
 
     return new ResponseEntity<>(responsePayload, HttpStatus.CREATED);
@@ -60,5 +61,11 @@ public class MembersController {
 record JResponse(String status, LocalDateTime time, Object data) {
   public static JResponse succeed(final Object data) {
     return new JResponse("succeed", LocalDateTime.now(ZoneOffset.UTC), data);
+  }
+}
+
+record CreateMemberParam (String firstName, String lastName, Integer age){
+  Member transform(){
+    return new Member(firstName, lastName, age);
   }
 }
