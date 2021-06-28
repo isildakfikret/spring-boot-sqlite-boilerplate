@@ -1,11 +1,13 @@
 package com.example.springboot.sqliteboilerplate.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
@@ -47,5 +49,17 @@ public class DbConfig {
     dataSource.setLogWriter(new PrintWriter(System.out));
 
     return dataSource;
+  }
+
+
+  @Bean
+  @Primary
+  public JdbcTemplate jdbcTemplate(final DataSource dataSource) {
+    return new JdbcTemplate(dataSource);
+  }
+
+  @Bean
+  public JdbcTemplate customJdbcTemplate(final @Qualifier("customDataSource") DataSource dataSource) {
+    return new JdbcTemplate(dataSource);
   }
 }
