@@ -21,7 +21,6 @@ public class DbConfig {
 
   // 1st Approach (Default Config)
   @Bean
-  @Primary
   public DataSource dataSource(
       @Value("${spring.datasource.url}") final String url,
       @Value("${spring.datasource.driver-class-name}") final String driverClassName
@@ -33,7 +32,7 @@ public class DbConfig {
   }
 
   // 2nd Approach (Custom Config)
-  @Bean
+  @Bean("customDataSource")
   public DataSource customDataSource(@Value("${spring.datasource.v2.url}") final String url) throws SQLException {
     final var dbConfig = new SQLiteConfig();
 
@@ -53,12 +52,11 @@ public class DbConfig {
 
 
   @Bean
-  @Primary
   public JdbcTemplate jdbcTemplate(final DataSource dataSource) {
     return new JdbcTemplate(dataSource);
   }
 
-  @Bean
+  @Bean("customJdbcTemplate")
   public JdbcTemplate customJdbcTemplate(final @Qualifier("customDataSource") DataSource dataSource) {
     return new JdbcTemplate(dataSource);
   }
