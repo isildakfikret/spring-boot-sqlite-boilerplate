@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Tag("ConfigTests")
 @SpringBootTest(classes = DbConfig.class)
-@DisplayName("ConfigTests::DbConfig")
+@DisplayName("ConfigTests::DbConfig Tests")
 class DbConfigTest {
 
   @Autowired private DataSource dataSource;
@@ -22,7 +22,7 @@ class DbConfigTest {
   @Autowired private JdbcTemplate customJdbcTemplate;
 
   @Test
-  @DisplayName("data sources and jdbc-templates should be created when the app started")
+  @DisplayName("data sources and jdbc templates should be created when the app started")
   void contextLoads() {
     assertThat(this.dataSource).isNotNull();
     assertThat(this.customDataSource).isNotNull();

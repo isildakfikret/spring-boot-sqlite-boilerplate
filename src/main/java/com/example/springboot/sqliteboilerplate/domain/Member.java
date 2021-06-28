@@ -14,4 +14,8 @@ public class Member {
   private String firstName;
   private String lastName;
   private int age;
+
+  public Member(final String firstName, final String lastName, final Integer age) {
+    this(UUID.randomUUID().toString(), firstName, lastName, age);
+  }
 }
