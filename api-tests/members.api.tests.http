@@ -1,0 +1,24 @@
+
+
+### Create New Member (v1)
+POST {{baseUrl}}/v1/create HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+< ./createMember.json
+
+### Create New Member (v2)
+POST {{baseUrl}}/v2/create HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+< ./createMember.json
+
+### Get Members
+GET {{baseUrl}}/v1 HTTP/1.1
+Accept: application/json
+
+#### Get Members
+GET {{baseUrl}}/v2 HTTP/1.1
+Accept: application/json
+
